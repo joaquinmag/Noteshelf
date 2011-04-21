@@ -15,7 +15,7 @@ class Prestamo {
 		pendiente(display:false)
 		usuario(nullable:false)
 		materialPrestado(nullable:false)
-		devolucion(nullable:false,validator: {return (it > new Date())})
+		devolucion(nullable:false)
     }
 	
 	static mapping = {
