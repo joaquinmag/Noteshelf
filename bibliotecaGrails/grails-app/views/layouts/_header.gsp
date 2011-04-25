@@ -13,11 +13,11 @@
 
     <div id="menu">
       <ul>
-        <li><a href="#" class="active">Blog</a></li>
-        <li><a href="#">About Me</a></li>
-        <li><a href="#">Photos</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="#">Contact Me</a></li>
+        <li><g:link controller="apunte" action="index" class="active">Apuntes</g:link></li>
+        <li><g:link controller="resumen" action="index">Resumen</g:link></li>
+        <li><g:link controller="prestamo" action="index">Prestamos</g:link></li>
+        <li><g:link controller="usuario" action="index">Usuarios</g:link></li>
+        <li><a href="mailto:bibliotecadeapuntesfiuba@gmail.com">Enviar mail</a></li>
       </ul>
     </div>
 
