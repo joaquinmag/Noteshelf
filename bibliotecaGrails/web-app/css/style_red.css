@@ -320,26 +320,33 @@ padding: 0.25em 0.25em 0.25em 0.25em;
 
 #search
 {
-position: relative;
+position: absolute;
+top: 2em;
 width: 100%;
 margin-bottom: 2.0em;
+vertical-align: middle;
+}
+
+#search form {
+    display: inline;
+    float:right;
 }
 
 #search input.text
 {
-position: absolute;
+/*position: absolute;
 top: 0em;
-left: 0em;
+left: 0em;*/
 width: 9.5em;
 }
 
 #search input.button
 {
-position: absolute;
+/*position: absolute;
 top: 0em;
-right: 0em;
+right: 0em;*/
 min-width: 2.0em;
-max-width: 2.5em;
+max-width: 9em;
 }
 
 /* LAYOUT - 3 COLUMNS */

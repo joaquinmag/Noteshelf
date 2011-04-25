@@ -1,7 +1,7 @@
-<g:render template="/layouts/buscaApuntes" />
 <div id="header">
 <div id="header_inner" class="fixed">
-        <div id="loginHeader"><g:loginControl /></div>
+        <div id="loginHeader"><g:loginControl /><g:render template="/layouts/buscaApuntes" /></div>
+        
         <div id="logo">
           	<g:if test="${session?.usuario?.admin}">
                   <g:link controller="admin" action="index"><h1><span>Biblioteca de apuntes</span></h1></g:link>
