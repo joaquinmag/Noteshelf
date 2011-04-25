@@ -27,5 +27,6 @@ class BootStrap {
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
+    }
 
 }
