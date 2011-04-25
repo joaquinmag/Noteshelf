@@ -52,43 +52,49 @@ class MaterialController {
 	    if(!f.empty) {
 
 			f.transferTo( new File('material.xls') )
-			MaterialExcelImporter importer = new MaterialExcelImporter("material.xls");
-			def cuadernosMapList = importer.getCuadernos();
-			def apuntesMapList = importer.getApuntes();
-			def resumenesMapList = importer.getResumenes();
-			
-			def total = cuadernosMapList.size()+apuntesMapList.size()+resumenesMapList.size()
-			def cuadernosAgregados = 0
-			def apuntesAgregados = 0
-			def resumenesAgregados = 0
-			
-			cuadernosMapList.each { Map cuadernoParams ->
-				def cuaderno = new Cuaderno(cuadernoParams)
+			try {
+				MaterialExcelImporter importer = new MaterialExcelImporter("material.xls");
+				def cuadernosMapList = importer.getCuadernos();
+				def apuntesMapList = importer.getApuntes();
+				def resumenesMapList = importer.getResumenes();
 				
-				if (!Cuaderno.findAll(cuaderno)) {
-					if (cuaderno.save())
-						cuadernosAgregados++
-				}
-			}
-			
-			apuntesMapList.each { Map apunteParams ->
-				def apunte = new Apunte(apunteParams)
-				if (!Apunte.findAll(apunte)) {
-					if (apunte.save())
-						apuntesAgregados++
-				}
-			}
-			
-			resumenesMapList.each { Map resumenParams ->
-				def resumen = new Resumen(resumenParams)
-				if (!Resumen.findAll(resumen)) {
-					if (resumen.save())
-						resumenesAgregados++
-				}
-			}
+				def total = cuadernosMapList.size()+apuntesMapList.size()+resumenesMapList.size()
+				def cuadernosAgregados = 0
+				def apuntesAgregados = 0
+				def resumenesAgregados = 0
 				
-				flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados de un total de "+total+" importados."
-				redirect(action:'list')
+				cuadernosMapList.each { Map cuadernoParams ->
+					def cuaderno = new Cuaderno(cuadernoParams)
+					
+					if (!Cuaderno.findAll(cuaderno)) {
+						if (cuaderno.save())
+							cuadernosAgregados++
+					}
+				}
+				
+				apuntesMapList.each { Map apunteParams ->
+					def apunte = new Apunte(apunteParams)
+					if (!Apunte.findAll(apunte)) {
+						if (apunte.save())
+							apuntesAgregados++
+					}
+				}
+				
+				resumenesMapList.each { Map resumenParams ->
+					def resumen = new Resumen(resumenParams)
+					if (!Resumen.findAll(resumen)) {
+						if (resumen.save())
+							resumenesAgregados++
+					}
+				}
+					
+					flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados de un total de "+total+" importados."
+					
+			} catch (Exception e) {
+				flash.message = 'Error al leer el archivo. Tipo o formato inesperado'
+			}
+
+			redirect(action:'list')
 	    }    
 	    else {
 	       flash.message = 'El archivo no puede estar vac&iacute;o'
