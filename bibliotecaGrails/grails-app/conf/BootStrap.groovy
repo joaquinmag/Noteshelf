@@ -1,5 +1,6 @@
 import grails.plugin.mail.MailService;
 import grails.util.GrailsUtil
+import biblioteca.Usuario
 
 class BootStrap {
     
@@ -27,5 +28,17 @@ class BootStrap {
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
+
+        def admin = new Usuario(
+            login: "groso",
+            password: "groso",
+            email: "bibliotecaapuntesfiuba@gmail.com",
+            rol: "admin",
+        )
+        admin.save(flush:true)
+        admin.confirmado = true
+        admin.save(flush:true)
+               
+    }
 
 }
