@@ -334,17 +334,11 @@ vertical-align: middle;
 
 #search input.text
 {
-/*position: absolute;
-top: 0em;
-left: 0em;*/
 width: 9.5em;
 }
 
 #search input.button
 {
-/*position: absolute;
-top: 0em;
-right: 0em;*/
 min-width: 2.0em;
 max-width: 9em;
 }
