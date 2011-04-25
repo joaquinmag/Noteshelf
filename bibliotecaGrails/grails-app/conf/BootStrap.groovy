@@ -29,16 +29,4 @@ class BootStrap {
             return [controller:'usuario', action:'confirmado']
         }
 
-        def admin = new Usuario(
-            login: "groso",
-            password: "groso",
-            email: "joacomag@gmail.com",
-            rol: "admin",
-        )
-        admin.save(flush:true)
-        admin.confirmado = true
-        admin.save(flush:true)
-               
-    }
-
 }
