@@ -1,6 +1,5 @@
 import grails.plugin.mail.MailService;
 import grails.util.GrailsUtil
-import biblioteca.Usuario
 
 class BootStrap {
     
