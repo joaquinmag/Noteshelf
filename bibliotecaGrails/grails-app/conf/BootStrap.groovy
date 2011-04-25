@@ -28,7 +28,6 @@ class BootStrap {
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
-    }
 
         def admin = new Usuario(
             login: "groso",
