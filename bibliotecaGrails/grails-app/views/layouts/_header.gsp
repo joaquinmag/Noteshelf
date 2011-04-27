@@ -13,9 +13,10 @@
 
     <div id="menu">
       <ul>
-        <li><g:link controller="apunte" action="index" class="active">Apuntes</g:link></li>
-        <li><g:link controller="resumen" action="index">Resumen</g:link></li>
-        <li><g:link controller="prestamo" action="index">Prestamos</g:link></li>
+        <li><g:link controller="apunte" action="index">Apuntes</g:link></li>
+        <li><g:link controller="resumen" action="index">Res&uacute;menes</g:link></li>
+        <li><g:link controller="cuaderno" action="index">Cuadernos</g:link></li>
+        <li><g:link controller="prestamo" action="index">Pr&eacute;stamos</g:link></li>
         <li><g:link controller="usuario" action="index">Usuarios</g:link></li>
         <li><a href="mailto:bibliotecadeapuntesfiuba@gmail.com">Enviar mail</a></li>
       </ul>

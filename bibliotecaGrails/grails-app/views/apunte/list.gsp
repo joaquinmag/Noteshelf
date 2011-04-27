@@ -1,0 +1,1 @@
+<g:render template="/layouts/materialList" model="[materialInstanceList: apunteInstanceList, materialInstanceTotal: apunteInstanceTotal]" />
