@@ -65,7 +65,9 @@ class AdminFilters {
 				if(request.getSession(false) && session.usuario){
 					def usuario = Usuario.get(params.id)
 					String emailAnterior = session.usuario.email
-					params.password = params.password.encodeAsSHA()
+					
+					if (params.password != usuario.password)
+						params.password = params.password.encodeAsSHA()
 
 					usuario.properties = params
 					
