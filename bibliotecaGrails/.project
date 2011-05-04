@@ -24,44 +24,44 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-conf</name>
+			<name>email-confirmation-1.0.5-grails-app-conf</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/conf</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/conf</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-controllers</name>
+			<name>email-confirmation-1.0.5-grails-app-controllers</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/controllers</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/controllers</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-domain</name>
+			<name>email-confirmation-1.0.5-grails-app-domain</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/domain</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/domain</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-i18n</name>
+			<name>email-confirmation-1.0.5-grails-app-i18n</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/i18n</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/i18n</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-jobs</name>
+			<name>email-confirmation-1.0.5-grails-app-jobs</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/jobs</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/jobs</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-services</name>
+			<name>email-confirmation-1.0.5-grails-app-services</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/services</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/services</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-utils</name>
+			<name>email-confirmation-1.0.5-grails-app-utils</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/utils</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/utils</locationURI>
 		</link>
 		<link>
-			<name>email-confirmation-1.0.4-grails-app-views</name>
+			<name>email-confirmation-1.0.5-grails-app-views</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.4/grails-app/views</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.7/projects/biblioteca%20de%20apuntes/plugins/email-confirmation-1.0.5/grails-app/views</locationURI>
 		</link>
 		<link>
 			<name>excel-import-0.3-grails-app-i18n</name>

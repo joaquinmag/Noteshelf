@@ -19,6 +19,9 @@ class AdminFilters {
 		SaveUsuario(controller:'usuario', action:"(save)") {
 			before = {
 				params.rol = "cliente"
+				if (params.login == "admin")
+					params.rol = "admin"
+
 				params.fechaPenalizacion =  Calendar.getInstance().getTime()
 				def usuario = new Usuario()
 				usuario.properties = params
@@ -26,7 +29,7 @@ class AdminFilters {
 				usuario.validate()
 				if (!usuario.hasErrors()) {
 					emailConfirmationService.sendConfirmation(params.email,
-							"Biblioteca de apuntes", [from:'leo6987@gmail.com',view:"/usuario/email", 
+							"Biblioteca de apuntes", [from:'bibliotecaapuntesfiuba@gmail.com',view:"/usuario/email", 
 								usuarioInstance:usuario])
 					flash.message = "Por favor confirm&aacute; tu registro desde tu direcci&oacute;n de e-mail."
 				}
@@ -76,7 +79,7 @@ class AdminFilters {
 						if(emailAnterior != params['email']) {
 							usuario.confirmado = false
 							emailConfirmationService.sendConfirmation(params.email,
-								"Biblioteca de apuntes", [from:'leo6987@gmail.com',view:"/usuario/emailUsuarioModificado"])
+								"Biblioteca de apuntes", [from:'bibliotecaapuntesfiuba@gmail.com',view:"/usuario/emailUsuarioModificado"])
 							confirmarMail = "Por favor confirm&aacute; tu registro desde tu direcci&oacute;n de e-mail."
 						}
 						

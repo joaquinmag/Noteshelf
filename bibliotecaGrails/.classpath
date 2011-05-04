@@ -12,42 +12,42 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.springsource.sts.grails.core.CLASSPATH_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/leo/workspace/biblioteca de apuntes/lib/mysql-connector-java-5.1.15-bin.jar"/>
-	<classpathentry excluding="BuildConfig.groovy|*DataSource.groovy|UrlMappings.groovy|Config.groovy|BootStrap.groovy|spring/resources.groovy" kind="src" path="email-confirmation-1.0.4-grails-app-conf">
+	<classpathentry excluding="BuildConfig.groovy|*DataSource.groovy|UrlMappings.groovy|Config.groovy|BootStrap.groovy|spring/resources.groovy" kind="src" path="email-confirmation-1.0.5-grails-app-conf">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-controllers">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-controllers">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-domain">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-domain">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-i18n">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-i18n">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-jobs">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-jobs">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-services">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-services">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-utils">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-utils">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="email-confirmation-1.0.4-grails-app-views">
+	<classpathentry kind="src" path="email-confirmation-1.0.5-grails-app-views">
 		<attributes>
 			<attribute name="com.springsource.sts.grails.core.SOURCE_FOLDER" value="true"/>
 		</attributes>
