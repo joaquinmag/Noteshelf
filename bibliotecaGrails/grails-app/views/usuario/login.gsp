@@ -34,8 +34,8 @@
 		</table>
 		</div>
 			<div class="buttons">
-                    <span class="button"><g:actionSubmit class="entrar" action="autenticar" value="Entrar" /></span>
-                    <span class="button"><g:actionSubmit class="reiniciarPassword" action="reiniciarPassword" value="Reiniciar Password" /></span>
+            	<g:actionSubmit class="button" action="autenticar" value="Entrar" />
+                <g:actionSubmit class="button" action="reiniciarPassword" value="Reiniciar Password" />
              </div>
 		</g:form>
 		</div>
