@@ -7,8 +7,6 @@ class PrestamoController {
 
 	def MailService
 	
-	final long MILSEGS_POR_DIA = 24 * 60 * 60 * 1000
-	
 	def scaffold = true
 	
 	def index = {
@@ -48,12 +46,11 @@ class PrestamoController {
 			prestamo.pendiente = false
 			prestamo.devolucionReal = Calendar.getInstance().getTime()
 			def penalizacion = ""
+			def usuario = prestamo.usuario
 			
-			if (prestamo.devolucion.before(prestamo.devolucionReal)) {
-				def usuario = Usuario.get(prestamo.usuario.id)
-				usuario.fechaPenalizacion = prestamo.devolucionReal
-				usuario.semanasPenalizacion = (prestamo.devolucionReal.getTime()-prestamo.devolucion.getTime())/ MILSEGS_POR_DIA
-				penalizacion = "Penalizaci&oacute;n de "+usuario.semanasPenalizacion+" semanas por demorar en la devoluci&oacute;n."
+			if (prestamo.debePenalizar()) {
+				usuario.penalizar(prestamo)
+				penalizacion = "Penalizaci&oacute;n de "+usuario.penalizacion.semanasPenalizacion+" semanas por demorar en la devoluci&oacute;n."
 			}
 				
 			if (prestamo.save(flush:true)) {

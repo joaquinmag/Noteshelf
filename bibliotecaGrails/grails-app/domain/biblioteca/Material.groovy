@@ -27,7 +27,7 @@ class Material {
 			total+=it.puntaje
 			acum++
 		}
-		if (total == 0)
+		if (acum == 0)
 			return 0
 		else
 			return (total/acum) 

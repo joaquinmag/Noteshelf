@@ -29,7 +29,7 @@
 			<br></br>
 			</g:each>
 			<div class="paginateButtons">
-				<g:paginate total="${materialInstanceTotal}"/>
+				<g:paginate total="${materialInstanceTotal}" params="[q: params.q]" />
 			</div>
 		</div>
 	</body>

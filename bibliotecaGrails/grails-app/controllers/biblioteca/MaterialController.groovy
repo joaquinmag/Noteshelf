@@ -1,38 +1,27 @@
 package biblioteca
+import grails.converters.*
 
 class MaterialController {
 
 	def scaffold = true
-	
+	def ParsearExcelService
+
 	def buscar = {
 		flash.message = "Resultados de la b&uacute;squeda para: ${params.q}"
 		
-		params.q = params.q.replace ('á','a');
-		params.q = params.q.replace ('é','e');
-		params.q = params.q.replace ('í','i');
-		params.q = params.q.replace ('ó','o');
-		params.q = params.q.replace ('ú','u');
-		params.q = params.q.replace ('Á','A');
-		params.q = params.q.replace ('É','E');
-		params.q = params.q.replace ('Í','I');
-		params.q = params.q.replace ('Ó','o');
-		params.q = params.q.replace ('Ú','U');
+		params.q = params.q.encodeAsSearch()
+			
 		def resultsMap = Material.search(params.q, params)
 
-		def resultados = new ArrayList()
-		resultsMap.results.each{
-			resultados.add(Material.get(it.id))
-		}
-
 		render(view:'list',
-			model:[materialInstanceList:resultados,materialInstanceTotal:Material.countHits(params.q)])
+			model:[materialInstanceList:resultsMap.results,materialInstanceTotal:Material.countHits(params.q)])
 	}
 	
 	def searchAJAX = {
-		def materiales = Apunte.findAllByAutorLikeOrNombreLikeOrSerieLikeOrTemaLike("%${params.query}%","%${params.query}%","%${params.query}%","%${params.query}%")
-		materiales.addAll(Cuaderno.findAllByAutorLikeOrCodigoMateriaLikeOrMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%","%${params.query}%","%${params.query}%","%${params.query}%"))
-		materiales.addAll(Resumen.findAllByAutorLikeOrCodigoMateriaLikeOrMateriaLikeOrDescripcionLike("%${params.query}%","%${params.query}%","%${params.query}%","%${params.query}%","%${params.query}%"))
-
+		def materiales = Apunte.findAllByNombreLikeOrTemaLike("%${params.query}%","%${params.query}%")
+		materiales.addAll(Cuaderno.findAllByMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%"))
+		materiales.addAll(Resumen.findAllByAutorLikeOrMateriaLike("%${params.query}%","%${params.query}%"))
+		
 		//Create XML response
 		render(contentType: "text/xml") {
 			results() {
@@ -100,6 +89,15 @@ class MaterialController {
 	       flash.message = 'El archivo no puede estar vac&iacute;o'
 	       redirect(action:'create')
 	    }
+	}
+	
+	def actualizarDesdeGDoc = {
+		def authToken = ParsearExcelService.createAuthToken()
+		println authToken
+		ParsearExcelService.obtenerArchivo(authToken).entry.each{
+			//def cuad = new Cuaderno(codigoMateria:it."gsx:title",materia:it."gsx:_cokwr",catedra:it."gsx:_cre1l",cuatrimestre:it."gsx:_ciyn3",tipo:it."gsx:_cztg3",autor:it."gsx:_ckd7g")
+			println it//."title"+" "+it."_cokwr"+" "+it._cre1l+" "+it._ciyn3+" "+it._cztg3+" "+it._ckd7g
+		}
 	}
 	
 	def puntuar = {

@@ -22,7 +22,6 @@ class AdminFilters {
 				if (params.login == "admin")
 					params.rol = "admin"
 
-				params.fechaPenalizacion =  Calendar.getInstance().getTime()
 				def usuario = new Usuario()
 				usuario.properties = params
 
@@ -149,7 +148,7 @@ class AdminFilters {
 						render(view: "create", controller: "prestamo", model: [prestamoInstance: prestamo])
 					} else {
 						//Prestamos pendientes
-						if (Prestamo.findAllByUsuarioAndPendiente(usuario,true).size() >= 1) {
+						if (usuario.tienePrestamosPendientes()) {
 							flash.message = "El usuario tiene pr&eacute;stamos pendientes."
 							redirect(controller:"prestamo", action:"list")
 							return false
@@ -166,11 +165,11 @@ class AdminFilters {
 						} else {
 							prestamo.pendiente = true
 
-							mailService.sendMail {
-								to prestamo.usuario.email
-								subject "Nuevo prestamo"
-								body (controller:"prestamo", view:"email", model: [prestamoInstance : prestamo])
-							}
+//							mailService.sendMail {
+//								to prestamo.usuario.email
+//								subject "Nuevo prestamo"
+//								body (controller:"prestamo", view:"email", model: [prestamoInstance : prestamo])
+//							}
 						}
 					}
 				}
@@ -237,22 +236,23 @@ class AdminFilters {
 		SaveComentario(controller:'comentario', action:"(save)") {
 				before = {
 					if(request.getSession(false) && session.usuario){
+						def material = Material.get(params.material)
 						if(session.usuario.admin){
-							def comentario = new Comentario(autor:Usuario.findByLogin("admin"), material:Material.get(params.material), comentario:params.comentario)
+							def comentario = new Comentario(autor:Usuario.findByLogin("admin"), material:material, comentario:params.comentario)
 							comentario.save(flush:true)
 							flash.message = "Comentario guardado."
 							redirect(controller:"material", action:"list")
 							return true
-						} else if(!(Material.get(params.material) in Prestamo.findAllByUsuario(session.usuario).materialPrestado)) {
-							flash.message = "Nunca retiraste este material. No pod&eacute;s comentarlo."
-							redirect(controller:"material", action:"list")
-							return false
-						} else {
+						} else if(session.usuario.puedeComentar(material)) {
 							def comentario = new Comentario(autor:Usuario.findByLogin(params.autor), material:Material.get(params.material), comentario:params.comentario)
 							comentario.save(flush:true)
 							flash.message = "Comentario guardado."
 							redirect(controller:"material", action:"list")
 							return true
+						} else {
+							flash.message = "Nunca retiraste este material. No pod&eacute;s comentarlo."
+							redirect(controller:"material", action:"list")
+							return false
 						}
 					} else {
 						flash.message = "Deb&eacutes; iniciar sesi&oacute;n antes de comentar."

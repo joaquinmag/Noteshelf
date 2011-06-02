@@ -26,4 +26,8 @@ class Prestamo {
 	boolean isVencido(){
 		return (pendiente && Calendar.getInstance().getTime().after(devolucion))
 	}
+	
+	boolean debePenalizar(){
+		return this.devolucion.before(this.devolucionReal)
+	}
 }
