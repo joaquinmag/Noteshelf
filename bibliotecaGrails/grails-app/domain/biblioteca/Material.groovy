@@ -18,6 +18,10 @@ class Material {
 	Boolean puntuar(Integer puntaje, Usuario autor){
 		puntuaciones.add(new Puntuacion(puntaje:puntaje,autor:autor,material:this))
 	}
+        
+        def puntuar(Puntuacion puntuacion) {
+            puntuaciones.add(puntuacion)
+        }
 	
 	static transients = ['puntuacion']
 	Float getPuntuacion() {
