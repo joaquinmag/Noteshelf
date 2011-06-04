@@ -9,7 +9,7 @@ class Usuario {
 	String login
 	String password
 	String email
-	String rol = "cliente"
+        RolUsuario rol
 	Boolean confirmado = false
 	Date fechaPenalizacion
 	Integer semanasPenalizacion = 0
@@ -31,7 +31,7 @@ class Usuario {
 		
 	static transients = ['admin','penalizado']
 	boolean isAdmin(){
-		return rol == "admin"
+		return rol.isAdmin()
 	}
 
 	boolean isPenalizado(){
@@ -43,15 +43,14 @@ class Usuario {
 	}
         
 	private void puedePuntuar(Material material){
-            if (this in material.puntuaciones*.autor) {
-                throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")
-            }
-            
-            if (material.id in this.prestamos*.materialPrestado*.id) {
-                throw new MaterialNuncaFuePrestadoException()
-            }
-            if (this.admin) {
-                //TODO
+            if (!isAdmin()) {
+                if (this in material.puntuaciones*.autor) {
+                    throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")
+                }
+
+                if (material.id in this.prestamos*.materialPrestado*.id) {
+                    throw new MaterialNuncaFuePrestadoException()
+                }
             }
 	}
         

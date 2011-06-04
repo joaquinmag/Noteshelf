@@ -1,6 +1,7 @@
 import grails.plugin.mail.MailService;
 import grails.util.GrailsUtil
 import biblioteca.Usuario
+import biblioteca.RolAdministrador
 
 class BootStrap {
     
@@ -33,7 +34,7 @@ class BootStrap {
             login: "groso",
             password: "groso",
             email: "bibliotecaapuntesfiuba@gmail.com",
-            rol: "admin",
+            rol: new RolAdministrador(),
         )
         admin.save(flush:true)
         admin.confirmado = true
