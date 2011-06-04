@@ -37,7 +37,7 @@ class Usuario {
 		Calendar hoy = Calendar.getInstance();
 		hoy.add(Calendar.DATE, -semanasPenalizacion*7);
 
-		return hoy.getTime()<=fechaPenalizacion
+		return hoy.getTime() <= fechaPenalizacion
 	}
         
 	boolean puedePuntuar(Material material){
