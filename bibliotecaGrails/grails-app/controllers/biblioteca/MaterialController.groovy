@@ -105,9 +105,11 @@ class MaterialController {
 		def material = Material.get(params.id)
 		
 		if(request.getSession(false) && session.usuario){
-			if(session.usuario.puedePuntuar(material)) {				
-				material.puntuar(Integer.parseInt(params.rating),session.usuario)
+			def valorPuntaje = Integer.parseInt(params.rating)
+			use(PuntuacionNumerica) {
+				Puntuacion puntaje = valorPuntaje.estrellas
 			}
+			session.usuario puntuar (material, puntaje)
 		}
 		render(template: "/layouts/puntuacion", model: [material: material])
 	}

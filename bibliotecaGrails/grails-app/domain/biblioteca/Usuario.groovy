@@ -7,7 +7,7 @@ class Usuario {
 	String login
 	String password
 	String email
-	String rol = "cliente"
+        RolUsuario rol
 	Boolean confirmado = false
 	Penalizacion penalizacion = new Penalizacion()
 	
@@ -28,13 +28,6 @@ class Usuario {
 	}
 		
 	static transients = ['admin','penalizado']
-	boolean isAdmin(){
-		return rol == "admin"
-	}
-	
-	boolean puedePuntuar(Material material){
-		return (((!(this in material.puntuaciones*.autor)) && (material.id in this.prestamos*.materialPrestado*.id)) || this.admin)
-	}
 	
 	boolean puedeComentar(Material material){
 		return (material.id in prestamos*.materialPrestado*.id)
@@ -42,13 +35,7 @@ class Usuario {
 	
 	boolean tienePrestamosPendientes(){
 		def cont = 0
-		
-		prestamos.each {
-			if (it.pendiente)
-				cont++
-		}
-		return (cont >= 1)
-	}
+        }
 
 	boolean isPenalizado(){
 		return this.penalizacion.isPenalizado()
@@ -56,7 +43,19 @@ class Usuario {
 	
 	void penalizar(Prestamo prestamo){
 		penalizacion.penalizar(prestamo)
+		return (hoy.getTime() <= fechaPenalizacion)
 	}
+        
+	private void puedePuntuar(Material material){
+            rol.verificarPosibilidadDePuntuar(material)
+	}
+        
+        def puntuar(Material material, Puntuacion puntaje) {
+            puedePuntuar material
+            puntaje.por this
+            puntaje.de material
+            material.puntuar puntuaje
+        }
 	
 	def beforeInsert = {
 		password = password.encodeAsSHA()

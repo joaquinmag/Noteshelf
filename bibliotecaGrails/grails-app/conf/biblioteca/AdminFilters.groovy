@@ -22,6 +22,7 @@ class AdminFilters {
 				if (params.login == "admin")
 					params.rol = "admin"
 
+				params.fechaPenalizacion =  Calendar.getInstance().getTime()
 				def usuario = new Usuario()
 				usuario.properties = params
 
