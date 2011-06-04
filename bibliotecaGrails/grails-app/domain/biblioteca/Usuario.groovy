@@ -39,10 +39,19 @@ class Usuario {
 
 		return hoy.getTime()<=fechaPenalizacion
 	}
-	
+        
 	boolean puedePuntuar(Material material){
-		return (((!(this in material.puntuaciones*.autor)) && (material.id in this.prestamos*.materialPrestado*.id)) || this.admin)
+            //TODO no se entiende que hace este if
+            return (((!(this in material.puntuaciones*.autor)) && (material.id in this.prestamos*.materialPrestado*.id)) || this.admin)
 	}
+        
+        def puntuar(Material material, Puntuacion puntaje) {
+            if (this.puedePuntuar(material)) {
+                puntaje.por this
+                puntaje.de material
+                material.puntuar puntuaje
+            }
+        }
 	
 	def beforeInsert = {
 		password = password.encodeAsSHA()
