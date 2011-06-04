@@ -1,12 +1,14 @@
 package biblioteca
 
-abstract class RolUsuario {
+class RolUsuario {
     
     String nombre
-
-    abstract boolean isAdmin()
+   
+    static belongsTo = [ usuario : Usuario ]
     
-    static belongsTo = Usuario
+    def verificarPosibilidadDePuntuar() {
+        throw new UnsupportedOperationException()
+    }
     
     static constraints = {
         nombre(nullable:false)

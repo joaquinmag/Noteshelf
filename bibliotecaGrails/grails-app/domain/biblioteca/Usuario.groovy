@@ -1,8 +1,6 @@
 package biblioteca
 
 import java.util.Calendar;
-import biblioteca.excepciones.UsuarioYaPuntuoException
-import biblioteca.excepciones.MaterialNuncaFuePrestadoException
 
 class Usuario {
 	
@@ -43,15 +41,7 @@ class Usuario {
 	}
         
 	private void puedePuntuar(Material material){
-            if (!isAdmin()) {
-                if (this in material.puntuaciones*.autor) {
-                    throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")
-                }
-
-                if (material.id in this.prestamos*.materialPrestado*.id) {
-                    throw new MaterialNuncaFuePrestadoException()
-                }
-            }
+            rol.verificarPosibilidadDePuntuar()
 	}
         
         def puntuar(Material material, Puntuacion puntaje) {

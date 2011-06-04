@@ -29,12 +29,15 @@ class BootStrap {
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
+        
+        RolAdministrador rolAdmin = new RolAdministrador()
+        rolAdmin.save(flush:true)
 
         def admin = new Usuario(
             login: "groso",
             password: "groso",
             email: "bibliotecaapuntesfiuba@gmail.com",
-            rol: new RolAdministrador(),
+            rol: rolAdmin,
         )
         admin.save(flush:true)
         admin.confirmado = true
