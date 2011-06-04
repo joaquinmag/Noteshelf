@@ -10,7 +10,7 @@ class RolUsuario {
         throw new UnsupportedOperationException()
     }
     
-    static belongsTo = [ Usuario: usuario ]
+    static belongsTo = [ usuario:Usuario ]
     
     static constraints = {
         nombre(nullable:false)

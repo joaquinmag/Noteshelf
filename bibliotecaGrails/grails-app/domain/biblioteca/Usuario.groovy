@@ -43,7 +43,6 @@ class Usuario {
 	
 	void penalizar(Prestamo prestamo){
 		penalizacion.penalizar(prestamo)
-		return (hoy.getTime() <= fechaPenalizacion)
 	}
         
 	private void puedePuntuar(Material material){
