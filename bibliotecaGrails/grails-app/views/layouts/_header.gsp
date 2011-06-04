@@ -1,4 +1,3 @@
-<g:render template="/layouts/buscaApuntes" />
 <div id="header">
   <div id="header_inner" class="fixed">
     <g:loginControl /><g:render template="/layouts/buscadorMaterial" />
