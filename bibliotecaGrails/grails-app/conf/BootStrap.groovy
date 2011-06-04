@@ -30,14 +30,14 @@ class BootStrap {
             return [controller:'usuario', action:'confirmado']
         }
         
-        RolAdministrador rolAdmin = new RolAdministrador()
-        rolAdmin.save(flush:true)
+        RolAdministrador rolAdministrador = new RolAdministrador()
+        rolAdministrador.save(flush: true)
 
         def admin = new Usuario(
             login: "groso",
             password: "groso",
             email: "bibliotecaapuntesfiuba@gmail.com",
-            rol: rolAdmin,
+            rol: rolAdministrador,
         )
         admin.save(flush:true)
         admin.confirmado = true

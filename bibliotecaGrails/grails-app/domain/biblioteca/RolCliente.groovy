@@ -5,10 +5,6 @@ import biblioteca.excepciones.MaterialNuncaFuePrestadoException
 
 class RolCliente extends RolUsuario {
     
-    RolCliente() {
-        this.nombre = "Cliente"
-    }
-    
     def verificarPosibilidadDePuntuar(Material material) {
         if (this in material.puntuaciones*.autor) {
             throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")

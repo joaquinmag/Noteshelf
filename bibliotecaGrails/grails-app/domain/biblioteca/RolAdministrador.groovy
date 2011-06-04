@@ -2,11 +2,7 @@ package biblioteca
 
 class RolAdministrador extends RolUsuario {
     
-    RolAdministrador() {
-        nombre = "Administrador"
-    }
-    
-    def verificarPosibilidadDePuntuar() {
+    def verificarPosibilidadDePuntuar(Material material) {
         true
     }
 

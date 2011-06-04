@@ -41,7 +41,7 @@ class Usuario {
 	}
         
 	private void puedePuntuar(Material material){
-            rol.verificarPosibilidadDePuntuar()
+            rol.verificarPosibilidadDePuntuar(material)
 	}
         
         def puntuar(Material material, Puntuacion puntaje) {
