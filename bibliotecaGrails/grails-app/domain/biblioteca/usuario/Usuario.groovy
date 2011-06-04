@@ -1,6 +1,10 @@
-package biblioteca
+package biblioteca.usuario
 
 import java.util.Calendar;
+import biblioteca.Material
+import biblioteca.Puntuacion
+import biblioteca.Prestamo
+import biblioteca.Comentario
 
 class Usuario {
 

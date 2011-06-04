@@ -1,5 +1,7 @@
 package biblioteca
 
+import biblioteca.usuario.Usuario
+
 class Comentario implements Comparable{
 
 	static belongsTo = [material:Material, autor:Usuario]

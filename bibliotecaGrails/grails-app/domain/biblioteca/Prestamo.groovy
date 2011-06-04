@@ -1,5 +1,6 @@
 package biblioteca
 
+import biblioteca.usuario.Usuario
 
 class Prestamo {
 

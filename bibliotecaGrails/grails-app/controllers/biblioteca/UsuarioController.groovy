@@ -1,5 +1,6 @@
 package biblioteca
 import org.apache.commons.lang.RandomStringUtils;
+import biblioteca.usuario.Usuario
 
 class UsuarioController {
   

@@ -1,5 +1,7 @@
 package biblioteca
 
+import biblioteca.usuario.Usuario
+
 class Puntuacion {
 
     Integer puntaje

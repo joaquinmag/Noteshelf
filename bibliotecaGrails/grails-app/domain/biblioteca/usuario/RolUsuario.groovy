@@ -1,4 +1,6 @@
-package biblioteca
+package biblioteca.usuario
+
+import biblioteca.Material
 
 class RolUsuario {
     

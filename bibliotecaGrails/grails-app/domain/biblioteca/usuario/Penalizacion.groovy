@@ -1,6 +1,7 @@
-package biblioteca
+package biblioteca.usuario
 
 import java.util.Date;
+import biblioteca.Prestamo
 
 class Penalizacion {
 	

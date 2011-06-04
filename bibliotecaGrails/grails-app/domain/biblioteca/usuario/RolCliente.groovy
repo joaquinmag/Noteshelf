@@ -1,5 +1,6 @@
-package biblioteca
+package biblioteca.usuario
 
+import biblioteca.Material
 import biblioteca.excepciones.UsuarioYaPuntuoException
 import biblioteca.excepciones.MaterialNuncaFuePrestadoException
 

@@ -1,7 +1,7 @@
 import grails.plugin.mail.MailService;
 import grails.util.GrailsUtil
-import biblioteca.Usuario
-import biblioteca.RolAdministrador
+import biblioteca.usuario.Usuario
+import biblioteca.usuario.RolAdministrador
 
 class BootStrap {
     
@@ -10,7 +10,7 @@ class BootStrap {
     def init = { servletContext ->
 		
         emailConfirmationService.onConfirmation = { email, uid ->
-            def usuario = biblioteca.Usuario.findAllByEmail(email)
+            def usuario = Usuario.findAllByEmail(email)
             usuario.each {
                 it.confirmado = true
                 it.save()
@@ -19,13 +19,13 @@ class BootStrap {
         }
 		
         emailConfirmationService.onInvalid = { uid ->
-            def usuario = biblioteca.Usuario.findAllByEmail(email)
+            def usuario = Usuario.findAllByEmail(email)
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
 		
         emailConfirmationService.onTimeout = { email, uid ->
-            def usuario = biblioteca.Usuario.findAllByEmail(email)
+            def usuario = Usuario.findAllByEmail(email)
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
