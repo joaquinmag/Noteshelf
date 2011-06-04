@@ -1,6 +1,8 @@
 package biblioteca
 
 import java.util.Calendar;
+import biblioteca.excepciones.UsuarioYaPuntuoException
+import biblioteca.excepciones.MaterialNuncaFuePrestadoException
 
 class Usuario {
 	
@@ -40,17 +42,24 @@ class Usuario {
 		return hoy.getTime() <= fechaPenalizacion
 	}
         
-	boolean puedePuntuar(Material material){
-            //TODO no se entiende que hace este if
-            return (((!(this in material.puntuaciones*.autor)) && (material.id in this.prestamos*.materialPrestado*.id)) || this.admin)
+	private void puedePuntuar(Material material){
+            if (this in material.puntuaciones*.autor) {
+                throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")
+            }
+            
+            if (material.id in this.prestamos*.materialPrestado*.id) {
+                throw new MaterialNuncaFuePrestadoException()
+            }
+            if (this.admin) {
+                //TODO
+            }
 	}
         
         def puntuar(Material material, Puntuacion puntaje) {
-            if (this.puedePuntuar(material)) {
-                puntaje.por this
-                puntaje.de material
-                material.puntuar puntuaje
-            }
+            puedePuntuar material
+            puntaje.por this
+            puntaje.de material
+            material.puntuar puntuaje
         }
 	
 	def beforeInsert = {
