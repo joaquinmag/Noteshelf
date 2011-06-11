@@ -63,6 +63,8 @@ class MaterialController {
 				
 				apuntesMapList.each { Map apunteParams ->
 					def apunte = new Apunte(apunteParams)
+					if (apunte.serie == "")
+						apunte.serie=null
 					if (!Apunte.findAll(apunte)) {
 						if (apunte.save())
 							apuntesAgregados++
@@ -92,12 +94,40 @@ class MaterialController {
 	}
 	
 	def actualizarDesdeGDoc = {
-		def authToken = ParsearExcelService.createAuthToken()
-		println authToken
-		ParsearExcelService.obtenerArchivo(authToken).entry.each{
-			//def cuad = new Cuaderno(codigoMateria:it."gsx:title",materia:it."gsx:_cokwr",catedra:it."gsx:_cre1l",cuatrimestre:it."gsx:_ciyn3",tipo:it."gsx:_cztg3",autor:it."gsx:_ckd7g")
-			println it//."title"+" "+it."_cokwr"+" "+it._cre1l+" "+it._ciyn3+" "+it._cztg3+" "+it._ckd7g
+		
+		def cuadernos = ParsearExcelService.obtenerCuadernos()
+		def apuntes = ParsearExcelService.obtenerApuntes()
+		def resumenes = ParsearExcelService.obtenerResumenes()
+		
+		def total = cuadernos.size()+apuntes.size()+resumenes.size()
+		def cuadernosAgregados = 0
+		def apuntesAgregados = 0
+		def resumenesAgregados = 0
+		
+		cuadernos.each { cuaderno ->
+			if (!Cuaderno.findAll(cuaderno)) {
+				if (cuaderno.save())
+					cuadernosAgregados++
+			}
 		}
+		
+		apuntes.each { apunte ->
+			if (!Apunte.findAll(apunte)) {
+				if (apunte.save())
+					apuntesAgregados++
+			}
+		}
+		
+		resumenes.each { resumen ->
+			if (!Resumen.findAll(resumen)) {
+				if (resumen.save())
+					resumenesAgregados++
+			}
+		}
+					
+		flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados de un total de "+total+" importados."
+					
+		redirect(action:'list')
 	}
 	
 	def puntuar = {

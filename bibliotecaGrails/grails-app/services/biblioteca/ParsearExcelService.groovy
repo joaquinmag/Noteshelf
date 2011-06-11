@@ -5,15 +5,14 @@ class ParsearExcelService {
     static transactional = true
 
 	/**
-	* Creates a new authentication token using the username
-	* and password parameters supplied by the client application
+	* Creates a new authentication token
 	*/
-    static createAuthToken(){
+    private static createAuthToken(){
 	    def url = new URL("https://www.google.com/accounts/ClientLogin")
 	    def connection = url.openConnection()
 	
 	    def queryString = "accountType=HOSTED_OR_GOOGLE&Email=bibliotecaapuntesfiuba@gmail.com" +
-							"&Passwd=PAAAASSSSS&service=wise&source=biblioteca-apuntes-1.0"
+							"&Passwd=seminario1&service=wise&source=biblioteca-apuntes-1.0"
 	
 	    def returnMessage = processRequest(connection, queryString)
 
@@ -30,7 +29,7 @@ class ParsearExcelService {
 	* other than what is expected (200 or 201) then an "Error" string
 	* is returned.
 	*/
-   static String processRequest(connection, dataString){
+   private static String processRequest(connection, dataString){
 	   connection.setRequestMethod("POST")
 	   connection.doOutput = true
 	   Writer writer = new OutputStreamWriter(connection.outputStream)
@@ -45,12 +44,9 @@ class ParsearExcelService {
 	   return "Error"
    }
    
-   static String hacerRequest(connection){
+   private static String doRequest(connection){
 	   connection.setRequestMethod("GET")
 	   connection.doInput = true
-	   //Reader reader = new InputStreamReader(connection.inputStream)
-	   
-//	   connection.connect()
 		   
 	   if (connection.responseCode == 200 || connection.responseCode == 201)
 		   return connection.content.text
@@ -58,21 +54,98 @@ class ParsearExcelService {
 	   return "Error"
    }
    
-   static obtenerArchivo(authToken){
+   static List<Cuaderno> obtenerCuadernos(){
+	   def authToken = ParsearExcelService.createAuthToken()
+	   
 	   def url = new URL("https://spreadsheets.google.com/feeds/list/0AjuFxyFChmdLcGRYMFJTTmhZX3p3Nm5QNkw0aHl5Smc/od7/private/full")
-	   //od4 resumenes
-	   //od6 Apuntes
 	   def connection = url.openConnection()
 	   connection.setRequestProperty("Authorization", "GoogleLogin auth=${authToken}")
 	   
-	   def returnMessage = new XmlSlurper().parseText(hacerRequest(connection))
-	   //hacerRequest(connection).replaceAll()
-//	   <gsx:listadodecuadernos>Codigo Materia</gsx:listadodecuadernos>
-//	   <gsx:_cokwr>Materia</gsx:_cokwr>
-//	   <gsx:_cre1l>Catedra</gsx:_cre1l>
-//	   <gsx:_ciyn3>Cuatrimestre de Cursada</gsx:_ciyn3>
-//	   <gsx:_ckd7g>Autor</gsx:_ckd7g>
-//	   <gsx:_cztg3>Tipo</gsx:_cztg3>
+	   def returnMessage = new XmlSlurper().parseText(doRequest(connection)).declareNamespace(gsx: 'http://schemas.google.com/spreadsheets/2006/extended')
+	   
+	   def cuadernos = []
+	   
+	   def i = 0	   
+	   returnMessage.entry.each{
 
+		   if (i>0){
+			   
+			   def codigoMateria = new String(it.'title'.toString().getBytes(), "UTF-8")
+			   def materia = new String(it.'_cokwr'.toString().getBytes(), "UTF-8")
+			   def catedra = new String(it.'_cre1l'.toString().getBytes(), "UTF-8")
+			   def cuatrimestre = new String(it.'_ciyn3'.toString().getBytes(), "UTF-8")
+			   def tipo = new String(it.'_cztg3'.toString().getBytes(), "UTF-8")
+			   def autor = new String(it.'_ckd7g'.toString().getBytes(), "UTF-8")
+
+			   def cuad = new Cuaderno(codigoMateria:codigoMateria,materia:materia,catedra:catedra,cuatrimestre:cuatrimestre,tipo:tipo,autor:autor)
+
+			   cuadernos.add(cuad)
+		   }
+		   i++;
+   		}
+
+	   return cuadernos
     }
+   
+   
+   static List<Resumen> obtenerResumenes(){
+	   def authToken = ParsearExcelService.createAuthToken()
+	   
+	   def url = new URL("https://spreadsheets.google.com/feeds/list/0AjuFxyFChmdLcGRYMFJTTmhZX3p3Nm5QNkw0aHl5Smc/od4/private/full")
+
+	   def connection = url.openConnection()
+	   connection.setRequestProperty("Authorization", "GoogleLogin auth=${authToken}")
+	   
+	   def returnMessage = new XmlSlurper().parseText(doRequest(connection))//.declareNamespace(gsx: 'http://schemas.google.com/spreadsheets/2006/extended')
+	   
+	   def resumenes = []
+
+	   def i = 0
+	   returnMessage.entry.each{
+
+		   if (i>0){
+			   def codigoMateria = new String(it.'title'.toString().getBytes(), "UTF-8")
+			   def materia = new String(it.'_cokwr'.toString().getBytes(), "UTF-8")
+			   def descripcion = new String(it.'_cre1l'.toString().getBytes(), "UTF-8")
+			   def autor = new String(it.'_ciyn3'.toString().getBytes(), "UTF-8")
+
+			   def resumen = new Resumen(codigoMateria:codigoMateria,materia:materia,descripcion:descripcion,autor:autor)
+
+			   resumenes.add(resumen)
+		   }
+			   
+		   i++;
+	   	}
+
+	   return resumenes
+	}
+
+   
+   static List<Apunte> obtenerApuntes(){
+	   def authToken = ParsearExcelService.createAuthToken()
+	   
+	   def url = new URL("https://spreadsheets.google.com/feeds/list/0AjuFxyFChmdLcGRYMFJTTmhZX3p3Nm5QNkw0aHl5Smc/od6/private/full")
+
+	   def connection = url.openConnection()
+	   connection.setRequestProperty("Authorization", "GoogleLogin auth=${authToken}")
+	   
+	   def returnMessage = new XmlSlurper().parseText(doRequest(connection))//.declareNamespace(gsx: 'http://schemas.google.com/spreadsheets/2006/extended')
+	   
+	   def apuntes = []
+
+	   returnMessage.entry.each{
+
+		   def nombre = new String(it.'apunte'.toString().getBytes(), "UTF-8")
+		   def serie = new String(it.'serie'.toString().getBytes(), "UTF-8")
+		   def autor = new String(it.'autor'.toString().getBytes(), "UTF-8")
+		   def tema = new String(it.'tema'.toString().getBytes(), "UTF-8")
+		   
+		   def apunte = new Apunte(nombre:nombre,serie:serie,tema:tema,autor:autor)
+
+		   apuntes.add(apunte)
+	   }
+
+	   return apuntes
+   }
+
 }
