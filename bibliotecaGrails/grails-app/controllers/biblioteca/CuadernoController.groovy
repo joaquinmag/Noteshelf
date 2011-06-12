@@ -1,7 +1,9 @@
 package biblioteca
+import grails.plugins.springsecurity.Secured
 
+@Secured(['ROLE_ADMIN'])
 class CuadernoController {
 
-	def scaffold = true
+	static scaffold = biblioteca.Cuaderno
 	
 }

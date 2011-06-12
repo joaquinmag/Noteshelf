@@ -1,13 +1,14 @@
 package biblioteca
 
 import java.util.Calendar;
+import grails.plugins.springsecurity.Secured
 
-
+@Secured(['ROLE_ADMIN'])
 class PrestamoController {
 
-	def MailService
+	static scaffold = biblioteca.Prestamo
 	
-	def scaffold = true
+	def MailService
 	
 	def index = {
 		redirect (controller:"prestamo", action:"list")
@@ -26,6 +27,7 @@ class PrestamoController {
 	
 	def devolver = {}
 	
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
 	def list = {
 		if (session?.usuario) {
 			if (session?.usuario?.rol == "cliente"){

@@ -1,6 +1,22 @@
 <div id="header">
   <div id="header_inner" class="fixed">
-    <g:loginControl /><g:render template="/layouts/buscadorMaterial" />
+    <sec:ifLoggedIn>
+		Hola <sec:username/>!
+		<sec:ifAllGranted roles="ROLE_ADMIN">
+			<g:link controller="admin" action="index">[Administrar]</g:link>
+		</sec:ifAllGranted>
+		<sec:ifAllGranted roles="ROLE_USUARIO">
+			<g:link controller="prestamo" action="list">[Mis pr&eacute;stamos]</g:link>
+		</sec:ifAllGranted>
+		<g:link controller="usuario" action="edit" id="${sec.loggedInUserInfo(field: 'id')}">[Mis datos]</g:link>
+		<g:link controller="logout" action="index">[Logout]</g:link>
+	</sec:ifLoggedIn>
+	<sec:ifNotLoggedIn>
+		<g:link controller='login' action='auth'>[Login]</g:link>
+		<g:link controller='usuario' action='create'>[Registrarse]</g:link>
+	</sec:ifNotLoggedIn>
+	
+    <g:render template="/layouts/buscadorMaterial" />
 
     <div id="logo">
       <g:if test="${session?.usuario?.admin}">

@@ -1,11 +1,15 @@
 package biblioteca
 import grails.converters.*
+import grails.plugins.springsecurity.Secured
 
+@Secured(['ROLE_ADMIN'])
 class MaterialController {
 
-	def scaffold = true
+	static scaffold = biblioteca.Material
+	
 	def ParsearExcelService
 
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
 	def buscar = {
 		flash.message = "Resultados de la b&uacute;squeda para: ${params.q}"
 		
@@ -16,7 +20,8 @@ class MaterialController {
 		render(view:'list',
 			model:[materialInstanceList:resultsMap.results,materialInstanceTotal:Material.countHits(params.q)])
 	}
-	
+
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def searchAJAX = {
 		def materiales = Apunte.findAllByNombreLikeOrTemaLike("%${params.query}%","%${params.query}%")
 		materiales.addAll(Cuaderno.findAllByMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%"))
@@ -130,6 +135,7 @@ class MaterialController {
 		redirect(action:'list')
 	}
 	
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
 	def puntuar = {
 		
 		def material = Material.get(params.id)
@@ -142,5 +148,11 @@ class MaterialController {
 			session.usuario puntuar (material, puntaje)
 		}
 		render(template: "/layouts/puntuacion", model: [material: material])
+	}
+	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+	def list = {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		[materialInstanceList: Material.list(params), materialInstanceTotal: Material.count()]
 	}
 }

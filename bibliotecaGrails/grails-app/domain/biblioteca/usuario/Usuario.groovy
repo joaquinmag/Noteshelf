@@ -8,31 +8,42 @@ import biblioteca.Comentario
 
 class Usuario {
 
-	String login
+	String username
 	String password
 	String email
-        RolUsuario rol
-	Boolean confirmado = false
+	Boolean enabled
+	Boolean accountLocked
+	Boolean accountExpired
+	Boolean passwordExpired
 	Penalizacion penalizacion = new Penalizacion()
 	
-		
-	String toString()
-	{ login }
+	static constraints = {
+		username blank: false, unique: true, nullable:false
+		password blank: false, password: true
+		email blank: false, unique: true, email: true
+		enabled display: false
+		accountLocked display: false
+		accountExpired display: false
+		passwordExpired display: false
+		penalizacion display: false
+	}
+	
+	static mapping = {
+		password column: '`password`'
+	}
 	
 	static hasMany = [prestamos:Prestamo, comentarios:Comentario, puntuaciones:Puntuacion]
 	static fetchMode = [puntuaciones:'eager', prestamos:'eager']
-	
-	static constraints = {
-		login(blank:false, nullable:false, unique:true)
-		password(blank:false, password:true)
-		email(blank:false,email:true)
-		rol(inList:["cliente", "admin"], display:false)
-		confirmado(display:false)
-		penalizacion(display:false)
+			
+	static transients = ['penalizado']
+
+	Set<Rol> getAuthorities() {
+		UsuarioRol.findAllByUsuario(this).collect { it.rol } as Set
 	}
-		
-	static transients = ['admin','penalizado']
-	
+
+	String toString()
+	{ username }
+
 	boolean puedeComentar(Material material){
 		return (material.id in prestamos*.materialPrestado*.id)
 	}
@@ -59,9 +70,4 @@ class Usuario {
             puntaje.de material
             material.puntuar puntuaje
         }
-	
-	def beforeInsert = {
-		password = password.encodeAsSHA()
-		confirmado = false
-	}
 }

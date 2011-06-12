@@ -11,7 +11,7 @@ class RolCliente extends RolUsuario {
             throw new UsuarioYaPuntuoException("El usuario ya puntuo este material")
         }
 
-        if (material.id in usuario.prestamos*.materialPrestado*.id) {
+        if (!(material.id in usuario.prestamos*.materialPrestado*.id)) {
             throw new MaterialNuncaFuePrestadoException()
         }
         

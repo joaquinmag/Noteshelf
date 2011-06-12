@@ -14,7 +14,7 @@ grails {
    mail {
      host = "smtp.gmail.com"
      port = 465
-     username = "mail@gmail.com"
+     username = "bibliotecaapuntesfiuba@gmail.com"
      password = "pass"
      props = ["mail.smtp.auth":"true", 					   
               "mail.smtp.socketFactory.port":"465",
@@ -68,7 +68,7 @@ grails.exceptionresolver.params.exclude = ['password']
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://biblioteca.apuntes.cloudbees.net/"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -114,3 +114,8 @@ grails.gorm.default.mapping = {
 	"user-type" type: org.joda.time.contrib.hibernate.PersistentLocalDateTime, class: org.joda.time.LocalDateTime
 	"user-type" type: org.joda.time.contrib.hibernate.PersistentPeriod, class: org.joda.time.Period
 }
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'biblioteca.usuario.Usuario'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'biblioteca.usuario.UsuarioRol'
+grails.plugins.springsecurity.authority.className = 'biblioteca.usuario.Rol'

@@ -14,5 +14,5 @@
 		</div>
 		<g:layoutBody />
     </body>
-    ${usuarioInstance.login}
+    ${usuarioInstance.username}
 </html>
