@@ -11,14 +11,18 @@ class MaterialController {
 
 	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
 	def buscar = {
-		flash.message = "Resultados de la b&uacute;squeda para: ${params.q}"
-		
-		params.q = params.q.encodeAsSearch()
+		if (params.q == ""){
+			redirect(action:'list')
+		} else {
+			flash.message = "Resultados de la b&uacute;squeda para: ${params.q}"
 			
-		def resultsMap = Material.search(params.q, params)
+			params.q = params.q.encodeAsSearch()
+				
+			def resultsMap = Material.search(params.q, params)
 
-		render(view:'list',
-			model:[materialInstanceList:resultsMap.results,materialInstanceTotal:Material.countHits(params.q)])
+			render(view:'list',
+				model:[materialInstanceList:resultsMap.results,materialInstanceTotal:Material.countHits(params.q)])
+		}
 	}
 
 	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])

@@ -15,7 +15,7 @@
 							<tr class="prop">
 								<td valign="top">
 									<span class="material-comment">Autor: </span>
-									<span class="valor">${comentarioInstance.autor.login}</span>
+									<span class="valor">${comentarioInstance.autor.username}</span>
 								</td>
 							</tr>
 							<tr class="prop">

@@ -16,7 +16,7 @@
 				<tr class="prop">
 					<td valign="top">
 						<div class="material">
-							<g:render template="/layouts/puntuacion" model="[material: materialInstance]" /><g:if test="${session?.usuario?.admin}"><p><g:link controller="${materialInstance.getClass().getSimpleName().toLowerCase()}" action="edit" id="${materialInstance.id}">[Editar material]</g:link></p></g:if>
+							<g:render template="/layouts/puntuacion" model="[material: materialInstance]" /><sec:ifAllGranted roles="ROLE_ADMIN"><p><g:link controller="${materialInstance.getClass().getSimpleName().toLowerCase()}" action="edit" id="${materialInstance.id}">[Editar material]</g:link></p></sec:ifAllGranted>
 							<g:render template="/layouts/${materialInstance.getClass().getSimpleName()}" model="[material: materialInstance]"/>
 							<g:if test="${(materialInstance.comentarios != null) && (materialInstance.comentarios.size() > 0)}">
 								<br></br><g:render template="/layouts/comentario" model="[comentarios: materialInstance.comentarios]"/>

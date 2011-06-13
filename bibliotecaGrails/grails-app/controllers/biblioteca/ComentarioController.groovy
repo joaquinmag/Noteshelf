@@ -1,5 +1,7 @@
 package biblioteca
 import grails.plugins.springsecurity.Secured
+import biblioteca.Comentario;
+import biblioteca.usuario.Usuario;
 
 @Secured(['ROLE_ADMIN'])
 class ComentarioController {
@@ -53,8 +55,8 @@ class ComentarioController {
 				else {
 					render(view: "create", model: [comentarioInstance: comentarioInstance])
 				}
-			} else if(session.usuario.puedeComentar(material)) {
-				def comentarioInstance = new Comentario(autor:Usuario.findByUsername(params.autor), material:Material.get(params.material), comentario:params.comentario)
+			} else if(springSecurityService.currentUser.puedeComentar(material)) {
+				def comentarioInstance = new Comentario(autor:Usuario.findByUsername(springSecurityService.currentUser.username), material:Material.get(params.material), comentario:params.comentario)
 				if (comentarioInstance.save(flush:true)) {
 					flash.message = "Comentario guardado."
 					redirect(controller:"material", action:"list")
@@ -76,7 +78,7 @@ class ComentarioController {
 	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def create = {
 		def comentarioInstance = new Comentario()
-       comentarioInstance.properties = params
+		comentarioInstance.properties = params
         return [comentarioInstance: comentarioInstance]
 	}
 	
@@ -88,19 +90,24 @@ class ComentarioController {
 			redirect(controller:"material", action:"list")
 		}
 		else {
-			return [comentarioInstance: comentarioInstance]
+			if(('ROLE_ADMIN' in springSecurityService.principal.authorities*.toString())
+				|| (comentarioInstance in Comentario.findAllByAutor(springSecurityService.currentUser))) {
+				return [comentarioInstance: comentarioInstance]
+			} else {
+				flash.message = "No pod&eacute;s editar este comentario."
+				redirect(controller:"material", action:"list")
+			}
 		}
 	}
 
 	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def delete = {
-		if (springSecurityService.loggedIn){
-			//Si el comentario es suyo o es admin borra el comentario
-			if(springSecurityService.principal.username == Comentario.get(params.id).autor.username || 
-				'ROLE_ADMIN' in springSecurityService.principal.authorities*.toString()) {
-				
-				def comentarioInstance = Comentario.get(params.id)
-				if (comentarioInstance) {
+		def comentarioInstance = Comentario.get(params.id)
+		if (comentarioInstance){
+			if (springSecurityService.loggedIn){
+				//Si el comentario es suyo o es admin borra el comentario
+				if(springSecurityService.principal.username == comentarioInstance.autor.username || 
+					'ROLE_ADMIN' in springSecurityService.principal.authorities*.toString()) {
 					try {
 						comentarioInstance.delete(flush: true)
 						flash.message = "Comentario borrado."
@@ -110,19 +117,17 @@ class ComentarioController {
 						flash.message = "Error al borrar el comentario."
 						redirect(controller:"material", action:"list")
 					}
-				}
-				else {
-					flash.message = "El comentario que quer&eacute;s borrar no existe."
+				} else {
+					flash.message = "Este comentario no es tuyo."
 					redirect(controller:"material", action:"list")
 				}
-				
 			} else {
-				flash.message = "Este comentario no es tuyo."
-				redirect(controller:"material", action:"list")
+				flash.message = "Por favor inici&aacute; sesi&oacute;n antes de continuar."
+				redirect(controller:"login", action:"auth")
 			}
-		} else {
-			flash.message = "Por favor inici&aacute; sesi&oacute;n antes de continuar."
-			redirect(controller:"login", action:"auth")
+		}else {
+			flash.message = "El comentario que quer&eacute;s borrar no existe."
+			redirect(controller:"material", action:"list")
 		}
 	}
 }
