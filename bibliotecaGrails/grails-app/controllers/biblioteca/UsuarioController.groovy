@@ -14,45 +14,43 @@ class UsuarioController {
 	
 	static scaffold = biblioteca.usuario.Usuario
 	
-//	def login = {}
-	
 	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
 	def confirmado = {}
 	
-//	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
-//	def reiniciarPassword = {
-//		if (params.login) {
-//			Usuario usuario = Usuario.findByLogin(params.login)
-//			if (usuario) {
-//				def password =  RandomStringUtils.random(8, true, true)
-//				usuario.password = password.encodeAsSHA()
-//
-//				if (!usuario.save(flush:true)) {
-//					usuario.errors.each {
-//						log.error "err $it"
-//					}
-//					flash.message = "Error al generar el nuevo password."
-//					redirect(controller:"usuario", action:"login")
-//				} else {
-//					sendMail {
-//						to usuario.email
-//						subject "Nuevo password biblioteca de apuntes"
-//						body(view:"emailPassModificado", model: [usuario:usuario.username,password:password])
-//					}
-//					flash.message = "El nuevo password fue enviado a tu email."
-//					redirect(controller:"usuario", action:"login")
-//				}
-//			}
-//			else {
-//				flash.message = "Usuario no encontrado. Ingres&aacute; tu usuario nuevamente."
-//				redirect(controller:"usuario", action:"login")
-//			}
-//		}
-//		else {
-//			flash.message = "Ingres&aacute; tu login para poder enviarte un nuevo password a tu email."
-//			redirect(controller:"usuario", action:"login")
-//		}
-//	}
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+	def reiniciarPassword = {
+		
+		if (params.username) {
+			Usuario usuario = Usuario.findByUsername(params.username)
+			if (usuario) {
+				def password =  RandomStringUtils.random(8, true, true)
+				usuario.password = springSecurityService.encodePassword(password)
+
+				if (!usuario.save(flush:true)) {
+					flash.message = "Error al generar el nuevo password."
+				} else {
+					sendMail {
+						to usuario.email
+						subject "Nuevo password biblioteca de apuntes"
+						body(view:"emailPassModificado", model: [usuario:usuario.username,password:password])
+					}
+					flash.message = "El nuevo password fue enviado a tu email."
+				}
+				redirect(controller:"login", action:"auth")
+			}
+			else {
+				flash.message = "Usuario no encontrado. Ingres&aacute; tu usuario nuevamente."
+				redirect(controller:"usuario", action:"olvidoClave")
+			}
+		}
+		else {
+			flash.message = "Ingres&aacute; tu usuario para poder enviarte un nuevo password a tu email."
+			redirect(controller:"usuario", action:"olvidoClave")
+		}
+	}
+	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+	def olvidoClave = {}
 	
 	@Secured(['ROLE_ADMIN'])
 	def searchAJAX = {
@@ -71,27 +69,6 @@ class UsuarioController {
 			}
 		}
 	}
-	
-	//		SaveUsuario(controller:'usuario', action:"(save)") {
-	//			before = {
-	//				params.rol = "cliente"
-	//				if (params.login == "admin")
-	//					params.rol = "admin"
-	//
-	//				params.fechaPenalizacion =  Calendar.getInstance().getTime()
-	//				def usuario = new Usuario()
-	//				usuario.properties = params
-	//
-	//				usuario.validate()
-	//				if (!usuario.hasErrors()) {
-	//					emailConfirmationService.sendConfirmation(params.email,
-	//							"Biblioteca de apuntes", [from:'bibliotecaapuntesfiuba@gmail.com',view:"/usuario/email",
-	//								usuarioInstance:usuario])
-	//					flash.message = "Por favor confirm&aacute; tu registro desde tu direcci&oacute;n de e-mail."
-	//				}
-	//				render(view:'list', controller:'material')
-	//			}
-	//		}
 	
 	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def create = {
@@ -164,10 +141,7 @@ class UsuarioController {
 				if (params.version) {
 					def version = params.version.toLong()
 				}
-				
-				println userInstance.password
-				println params.password
-				println springSecurityService.encodePassword(params.password)
+
 				if (userInstance.password != params.password) {
 					params.password = springSecurityService.encodePassword(params.password)
 				}

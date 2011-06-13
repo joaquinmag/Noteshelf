@@ -19,13 +19,13 @@
     <g:render template="/layouts/buscadorMaterial" />
 
     <div id="logo">
-      <g:if test="${session?.usuario?.admin}">
-        <g:link controller="admin" action="index"><h1><span>Biblioteca de apuntes</span></h1></g:link>
-      </g:if>
-      <g:else>
-        <g:link controller="material" action="index"><h1><span>Biblioteca de apuntes</span></h1></g:link>
-      </g:else>
-    </div>
+      <sec:ifAllGranted roles="ROLE_ADMIN">
+			<g:link controller="admin" action="index"><h1><span>Biblioteca de apuntes</span></h1></g:link>
+		</sec:ifAllGranted>
+		<sec:ifNotGranted roles="ROLE_ADMIN">
+			<g:link controller="material" action="index"><h1><span>Biblioteca de apuntes</span></h1></g:link>
+		</sec:ifNotGranted>
+	</div>
 
     <div id="menu">
       <ul>

@@ -155,4 +155,10 @@ class MaterialController {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[materialInstanceList: Material.list(params), materialInstanceTotal: Material.count()]
 	}
+	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
+	def index = {
+		redirect(action:'list')
+	}
+
 }
