@@ -1,5 +1,5 @@
 <span class="item">Material: </span>
-<span class="valor">${material.nombre+" "+material.serie}</span>
+<span class="valor">${material.toString()}</span>
 <span class="item">Id: </span>
 <span class="valor">${material.id}</span>
 <table>

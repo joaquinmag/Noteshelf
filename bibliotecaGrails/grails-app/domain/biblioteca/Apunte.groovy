@@ -12,6 +12,10 @@ class Apunte extends Material{
     }
 
 	String toString(){
-		nombre+" "+serie
+		def s = ""
+		if (serie != null)
+			s = serie
+			
+		nombre+" "+s
 	}
 }

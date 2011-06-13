@@ -26,7 +26,7 @@ class Penalizacion {
     void penalizar(Prestamo prestamo){
         this.fechaPenalizacion = prestamo.devolucionReal
         def tiempoDePenalizacion = prestamo.devolucionReal.getTime()-prestamo.devolucion.getTime()
-        this.semanasPenalizacion = (tiempoDevolucion)/ MILSEGS_POR_DIA
+        this.semanasPenalizacion = (tiempoDePenalizacion)/ MILSEGS_POR_DIA
     }
 
 }

@@ -54,14 +54,14 @@ class UsuarioController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def searchAJAX = {
-		def usuarios = Usuario.findAllByLoginLike("%${params.query}%")
+		def usuarios = Usuario.findAllByUsernameLike("%${params.query}%")
 
 		//Create XML response
 		render(contentType: "text/xml") {
 			results() {
 				usuarios.each { usuario ->
 					result(){
-						name(usuario.login)
+						name(usuario.username)
 								//Optional id which will be available in onItemSelect
 								id(usuario.id)
 					}
@@ -106,7 +106,7 @@ class UsuarioController {
 		}
 	}
 	
-	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def edit = {
 		if(springSecurityService.isLoggedIn()) {
 			// Si solo pone usuario/edit
@@ -131,7 +131,7 @@ class UsuarioController {
 		}
 	}
 	
-	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def update = {
 		if(springSecurityService.isLoggedIn()) {
 			def userInstance = Usuario.get(params.id)
@@ -176,4 +176,7 @@ class UsuarioController {
 			}
 		}
 	}
+	
+	@Secured([])
+	def delete = {}
 }
