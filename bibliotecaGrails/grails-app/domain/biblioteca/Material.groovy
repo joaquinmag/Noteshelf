@@ -9,7 +9,11 @@ class Material {
 	Date dateCreated
 	SortedSet comentarios
 
-	static searchable = true
+	//Para levantar los comentarios de cada material al buscar
+	static searchable = {
+		comentarios reference: true
+	}
+
 	static hasMany = [prestamos:Prestamo,comentarios:Comentario,puntuaciones:Puntuacion]
 	static fetchMode = [prestamos:'eager']
 	
@@ -17,14 +21,14 @@ class Material {
 		autor(nullable:true)
     }
 	
-	Boolean puntuar(Integer puntaje, Usuario autor){
-		puntuaciones.add(new Puntuacion(puntaje:puntaje,autor:autor,material:this))
+    public void puntuar(Puntuacion puntuacion) {
+		puntuaciones.add(puntuacion)
+    }
+
+	public boolean fuePuntuadoPor(Usuario usuario){
+		return this.puntuaciones*.autor.contains(usuario)
 	}
-        
-        def puntuar(Puntuacion puntuacion) {
-            puntuaciones.add(puntuacion)
-        }
-	
+
 	static transients = ['puntuacion']
 	Float getPuntuacion() {
 		def total = 0

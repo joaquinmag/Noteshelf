@@ -18,6 +18,7 @@ class ComentarioController {
 			if('ROLE_ADMIN' in springSecurityService.principal.authorities*.toString()){
 				if (!comentarioInstance.hasErrors() && comentarioInstance.save(flush:true)) {
 					flash.message = "Comentario actualizado."
+					comentarioInstance.material.reindex()
 					redirect(controller:"material", action:"list")
 				}
 				else {
@@ -29,6 +30,7 @@ class ComentarioController {
 			} else {
 				if (!comentarioInstance.hasErrors() && comentarioInstance.save(flush:true)) {
 					flash.message = "Comentario actualizado."
+					comentarioInstance.material.reindex()
 					redirect(controller:"material", action:"list")
 				}
 				else {
@@ -50,6 +52,7 @@ class ComentarioController {
 				def comentarioInstance = new Comentario(autor:Usuario.findByUsername("admin"), material:material, comentario:params.comentario)
 				if (comentarioInstance.save(flush:true)) {
 					flash.message = "Comentario guardado."
+					comentarioInstance.material.reindex()
 					redirect(controller:"material", action:"list")
 				}
 				else {
@@ -59,6 +62,7 @@ class ComentarioController {
 				def comentarioInstance = new Comentario(autor:Usuario.findByUsername(springSecurityService.currentUser.username), material:Material.get(params.material), comentario:params.comentario)
 				if (comentarioInstance.save(flush:true)) {
 					flash.message = "Comentario guardado."
+					comentarioInstance.material.reindex()
 					redirect(controller:"material", action:"list")
 				}
 				else {

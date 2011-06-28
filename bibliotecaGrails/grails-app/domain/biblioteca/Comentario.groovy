@@ -10,6 +10,11 @@ class Comentario implements Comparable{
 	Date dateCreated
 	Date lastUpdated
 	
+	//Para levantar los comentarios de cada material al buscar y sus autores
+	static searchable = {
+		autor reference: true
+	}
+	
     static constraints = {
 		comentario(blank:false,maxsize:255)
 		material(display:false)

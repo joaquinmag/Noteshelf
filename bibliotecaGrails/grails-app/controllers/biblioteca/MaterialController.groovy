@@ -8,8 +8,10 @@ class MaterialController {
 	static scaffold = biblioteca.Material
 	
 	def ParsearExcelService
+	def searchableService
+	def springSecurityService
 
-	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def buscar = {
 		if (params.q == ""){
 			redirect(action:'list')
@@ -25,12 +27,12 @@ class MaterialController {
 		}
 	}
 
-	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def searchAJAX = {
-		def materiales = Apunte.findAllByNombreLikeOrTemaLike("%${params.query}%","%${params.query}%")
-		materiales.addAll(Cuaderno.findAllByMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%"))
-		materiales.addAll(Resumen.findAllByAutorLikeOrMateriaLike("%${params.query}%","%${params.query}%"))
+//		def materiales = Apunte.findAllByNombreLikeOrTemaLike("%${params.query}%","%${params.query}%")
+//		materiales.addAll(Cuaderno.findAllByMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%"))
+//		materiales.addAll(Resumen.findAllByAutorLikeOrMateriaLike("%${params.query}%","%${params.query}%"))
 		
+		def materiales = searchableService.search(params.query).results;
 		//Create XML response
 		render(contentType: "text/xml") {
 			results() {
@@ -56,7 +58,6 @@ class MaterialController {
 				def apuntesMapList = importer.getApuntes();
 				def resumenesMapList = importer.getResumenes();
 				
-				def total = cuadernosMapList.size()+apuntesMapList.size()+resumenesMapList.size()
 				def cuadernosAgregados = 0
 				def apuntesAgregados = 0
 				def resumenesAgregados = 0
@@ -88,7 +89,7 @@ class MaterialController {
 					}
 				}
 					
-					flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados de un total de "+total+" importados."
+					flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados."
 					
 			} catch (Exception e) {
 				flash.message = 'Error al leer el archivo. Tipo o formato inesperado'
@@ -107,8 +108,7 @@ class MaterialController {
 		def cuadernos = ParsearExcelService.obtenerCuadernos()
 		def apuntes = ParsearExcelService.obtenerApuntes()
 		def resumenes = ParsearExcelService.obtenerResumenes()
-		
-		def total = cuadernos.size()+apuntes.size()+resumenes.size()
+
 		def cuadernosAgregados = 0
 		def apuntesAgregados = 0
 		def resumenesAgregados = 0
@@ -134,23 +134,33 @@ class MaterialController {
 			}
 		}
 					
-		flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados de un total de "+total+" importados."
+		flash.message = cuadernosAgregados+" cuadernos, "+apuntesAgregados+" apuntes y "+resumenesAgregados+" resumenes agregados."
 					
 		redirect(action:'list')
 	}
 	
-	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
+	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def puntuar = {
 		
 		def material = Material.get(params.id)
-		
-		if(request.getSession(false) && session.usuario){
-			def valorPuntaje = Integer.parseInt(params.rating)
-			use(PuntuacionNumerica) {
-				Puntuacion puntaje = valorPuntaje.estrellas
+		def usuario = springSecurityService.currentUser
+
+		if(springSecurityService.loggedIn && usuario.puedePuntuar(material)){
+			Puntuacion puntaje = Puntuacion.findByMaterialAndAutor(material,usuario)
+
+			if (puntaje == null){
+				puntaje = new Puntuacion()
+				puntaje.puntaje = Integer.parseInt(params.rating)
+				puntaje.por usuario
+				puntaje.de material
+				puntaje.save(flush:true)
 			}
-			session.usuario puntuar (material, puntaje)
+
+			puntaje.puntaje = Integer.parseInt(params.rating)
+
+			material.puntuar(puntaje)
 		}
+
 		render(template: "/layouts/puntuacion", model: [material: material])
 	}
 	

@@ -27,6 +27,8 @@ class Usuario {
 		passwordExpired display: false
 		penalizacion display: false
 	}
+	//Para levantar el autor de los comentarios de cada material al buscar
+	static searchable = true
 	
 	static mapping = {
 		password column: '`password`'
@@ -60,14 +62,12 @@ class Usuario {
 		penalizacion.penalizar(prestamo)
 	}
         
-	private void puedePuntuar(Material material){
-            rol.verificarPosibilidadDePuntuar(material)
+	private boolean puedePuntuar(Material material){
+		if (this.getAuthorities().contains(Rol.findByAuthority("ROLE_ADMIN")))
+			return true
+		else if (this.prestamos*.materialPrestado*.id.contains(material.id))
+				return true
+			else
+				return false
 	}
-        
-        def puntuar(Material material, Puntuacion puntaje) {
-            puedePuntuar material
-            puntaje.por this
-            puntaje.de material
-            material.puntuar puntuaje
-        }
 }

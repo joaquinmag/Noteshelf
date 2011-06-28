@@ -5,7 +5,6 @@ import biblioteca.usuario.Usuario
 class Puntuacion {
 
     Integer puntaje
-    String unit
     
     static belongsTo = [material:Material, autor:Usuario]
 
@@ -19,14 +18,5 @@ class Puntuacion {
     
     static constraints = {
         puntaje(range:0..5)
-    }
-
-}
-
-// Hago este DSL solo con fines demostrativos :P
-@Category(Number)
-class PuntuacionNumerica {
-    def get(String unit) {
-        new Puntuacion(this, unit, null, null)
     }
 }
