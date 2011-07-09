@@ -28,10 +28,7 @@ class MaterialController {
 	}
 
 	def searchAJAX = {
-//		def materiales = Apunte.findAllByNombreLikeOrTemaLike("%${params.query}%","%${params.query}%")
-//		materiales.addAll(Cuaderno.findAllByMateriaLikeOrCatedraLike("%${params.query}%","%${params.query}%"))
-//		materiales.addAll(Resumen.findAllByAutorLikeOrMateriaLike("%${params.query}%","%${params.query}%"))
-		
+
 		def materiales = searchableService.search(params.query).results;
 		//Create XML response
 		render(contentType: "text/xml") {

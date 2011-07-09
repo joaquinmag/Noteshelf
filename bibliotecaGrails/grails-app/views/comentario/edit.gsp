@@ -46,7 +46,6 @@
 					  <input id="ta1count" readonly type="text" size="30"/>
 	                </td>
 	            </tr>
-				<g:hiddenField name="autor" value="${session.usuario}"/>
 			</tbody>
           </table>
         </div>

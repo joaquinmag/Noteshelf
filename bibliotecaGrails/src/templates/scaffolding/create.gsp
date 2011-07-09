@@ -27,7 +27,7 @@
                 <div class="dialog">
                     <table>
                         <tbody>
-                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated' << 'rol' << 'confirmado' << 'fechaPenalizacion' << 'semanasPenalizacion'
+                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated' << 'enabled' << 'accountLocked' << 'accountExpired' << 'passwordExpired' << 'penalizacion'
                             persistentPropNames = domainClass.persistentProperties*.name
                             props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
                             Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))

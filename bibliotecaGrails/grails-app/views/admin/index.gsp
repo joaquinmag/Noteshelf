@@ -22,14 +22,18 @@
             <div id="controllerList" class="dialog">
                 <h2>Pr&eacute;stamos:</h2>
                 <ul>
-                    <li class="controller"><g:link controller="prestamo" action="create">Crear</g:link></li>
-                    <li class="controller"><g:link controller="prestamo" action="list">Registrar devoluci&oacute;n</g:link></li>
-                    <li class="controller"><g:link controller="prestamo" action="list">Ver y mandar recordatorios</g:link></li>
+                    <li class="controller"><g:link controller="prestamo" action="create">Crear pr&eacute;stamo</g:link></li>
+                    <li class="controller"><g:link controller="prestamo" action="list">Registrar devoluci&oacute;n de pr&eacute;stamo</g:link></li>
+                    <li class="controller"><g:link controller="prestamo" action="list">Ver y mandar recordatorios de pr&eacute;stamos</g:link></li>
                 </ul>
                 <h2>Material:</h2>
                 <ul>
-                    <li class="controller"><g:link controller="material" action="create">Actualizar</g:link></li>
-                    <li class="controller"><g:link controller="material" action="list">Editar</g:link></li>
+                    <li class="controller"><g:link controller="material" action="create">Actualizar material</g:link></li>
+                    <li class="controller"><g:link controller="material" action="list">Editar material</g:link></li>
+                </ul>
+                <h2>Feriados:</h2>
+                <ul>
+                    <li class="controller"><g:link controller="feriado" action="index">Administrar feriados</g:link></li>
                 </ul>
             </div>
         </div>

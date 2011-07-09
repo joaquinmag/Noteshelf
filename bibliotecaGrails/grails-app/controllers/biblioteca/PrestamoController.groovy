@@ -120,6 +120,7 @@ class PrestamoController {
 	def create = {
 		def prestamoInstance = new Prestamo()
 		prestamoInstance.properties = params
+		prestamoInstance.definirFechaDeDevolucion()
 		return [prestamoInstance: prestamoInstance]
 	}
 	
@@ -132,10 +133,13 @@ class PrestamoController {
 		} else {
 			params.materialPrestado = null
 		}
-		
+
+		params.devolucion = new Date()
 		def prestamo = new Prestamo(params)
+		prestamo.definirFechaDeDevolucion()
 		prestamo.validate()
 		if (prestamo.hasErrors()) {
+			prestamo.errors.each{println it}
 			render(view: "create", controller: "prestamo", model: [prestamoInstance: prestamo])
 		} else {
 			//Prestamos pendientes
@@ -161,7 +165,7 @@ class PrestamoController {
 					flash.message = "El pr&eacute;stamo fue creado correctamente."
 				}
 			}
+			redirect(controller:"prestamo", action:"list")
 		}
-		redirect(controller:"prestamo", action:"list")
 	}
 }

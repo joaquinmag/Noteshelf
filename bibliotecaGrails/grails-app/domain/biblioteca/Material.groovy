@@ -12,6 +12,7 @@ class Material {
 	//Para levantar los comentarios de cada material al buscar
 	static searchable = {
 		comentarios reference: true
+		puntuaciones reference: true
 	}
 
 	static hasMany = [prestamos:Prestamo,comentarios:Comentario,puntuaciones:Puntuacion]

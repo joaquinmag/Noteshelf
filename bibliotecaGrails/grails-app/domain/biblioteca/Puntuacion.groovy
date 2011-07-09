@@ -6,6 +6,11 @@ class Puntuacion {
 
     Integer puntaje
     
+	//Para levantar las puntuaciones al buscar los materiales
+	static searchable = {
+		autor reference: true
+	}
+	
     static belongsTo = [material:Material, autor:Usuario]
 
     def por(Usuario autor) {

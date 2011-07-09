@@ -134,29 +134,29 @@ class UsuarioController {
 	@Secured(['ROLE_USUARIO','ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
 	def update = {
 		if(springSecurityService.isLoggedIn()) {
-			def userInstance = Usuario.get(params.id)
-			String emailAnterior = userInstance.email
+			def usuarioInstance = Usuario.get(params.id)
+			String emailAnterior = usuarioInstance.email
 
-			if (userInstance) {
+			if (usuarioInstance) {
 				if (params.version) {
 					def version = params.version.toLong()
 				}
 
-				if (userInstance.password != params.password) {
+				if (usuarioInstance.password != params.password) {
 					params.password = springSecurityService.encodePassword(params.password)
 				}
 
-				userInstance.properties = params
-				
-				if (!userInstance.hasErrors() && userInstance.save(flush: true)) {
+				usuarioInstance.properties = params
+				usuarioInstance.validate()
+				if (!usuarioInstance.hasErrors() && usuarioInstance.save(flush: true)) {
 					if (springSecurityService.loggedIn &&
-							springSecurityService.principal.username == userInstance.username) {
-							springSecurityService.reauthenticate userInstance.username
+							springSecurityService.principal.username == usuarioInstance.username) {
+							springSecurityService.reauthenticate usuarioInstance.username
 					}
 							
 					String confirmarMail = ""
 					if(emailAnterior != params['email']) {
-						userInstance.enabled = false
+						usuarioInstance.enabled = false
 						emailConfirmationService.sendConfirmation(params.email,
 							"Biblioteca de apuntes", [from:'bibliotecaapuntesfiuba@gmail.com',view:"/usuario/emailUsuarioModificado"])
 						confirmarMail = "Por favor confirm&aacute; tu registro desde tu nueva direcci&oacute;n de e-mail."
@@ -166,7 +166,7 @@ class UsuarioController {
 					return true
 				}
 				else {
-					render(view: "edit", model: [userInstance: userInstance])
+					render(view: "edit", model: [usuarioInstance: usuarioInstance])
 				}
 			}
 			else {
