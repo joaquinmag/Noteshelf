@@ -164,8 +164,8 @@ class PrestamoController {
 					}
 					flash.message = "El pr&eacute;stamo fue creado correctamente."
 				}
+				redirect(controller:"prestamo", action:"list")
 			}
-			redirect(controller:"prestamo", action:"list")
 		}
 	}
 }

@@ -37,8 +37,6 @@ class Usuario {
 	static hasMany = [prestamos:Prestamo, comentarios:Comentario, puntuaciones:Puntuacion]
 	static fetchMode = [puntuaciones:'eager', prestamos:'eager']
 			
-	static transients = ['penalizado']
-
 	Set<Rol> getAuthorities() {
 		UsuarioRol.findAllByUsuario(this).collect { it.rol } as Set
 	}
@@ -52,10 +50,18 @@ class Usuario {
 	
 	boolean tienePrestamosPendientes(){
 		def cont = 0
-        }
+		
+		prestamos.each{
+			if (it.pendiente)
+				cont++
+		}
+		
+		return (cont>=1)
+    }
 
+	static transients = ['penalizado']
 	boolean isPenalizado(){
-		return this.penalizacion.isPenalizado()
+		return this.penalizacion?.isPenalizado()
 	}
 	
 	void penalizar(Prestamo prestamo){
