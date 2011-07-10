@@ -45,7 +45,10 @@ class Usuario {
 	{ username }
 
 	boolean puedeComentar(Material material){
-		return (material.id in prestamos*.materialPrestado*.id)
+		if (prestamos.size() == 0)
+			return false
+		else
+			return (material.id in prestamos*.materialPrestado*.id)
 	}
 	
 	boolean tienePrestamosPendientes(){
@@ -71,9 +74,10 @@ class Usuario {
 	private boolean puedePuntuar(Material material){
 		if (this.getAuthorities().contains(Rol.findByAuthority("ROLE_ADMIN")))
 			return true
-		else if (this.prestamos*.materialPrestado*.id.contains(material.id))
+		else if (this.prestamos.size() > 0){
+			if (this.prestamos*.materialPrestado*.id.contains(material.id))
 				return true
-			else
-				return false
+		}
+		return false
 	}
 }

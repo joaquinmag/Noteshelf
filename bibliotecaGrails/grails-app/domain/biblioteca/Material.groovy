@@ -27,7 +27,10 @@ class Material {
     }
 
 	public boolean fuePuntuadoPor(Usuario usuario){
-		return this.puntuaciones*.autor.contains(usuario)
+		if (this.puntuaciones.size() > 0)
+			return this.puntuaciones*.autor.contains(usuario)
+		else
+			return false
 	}
 
 	static transients = ['puntuacion']
