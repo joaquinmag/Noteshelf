@@ -23,12 +23,14 @@ class BootStrap {
 		
         emailConfirmationService.onInvalid = { uid ->
             def usuario = Usuario.findAllByEmail(email)
+			UsuarioRol.removeAll(usuario)
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
 		
         emailConfirmationService.onTimeout = { email, uid ->
             def usuario = Usuario.findAllByEmail(email)
+			UsuarioRol.removeAll(usuario)
             usuario.delete();
             return [controller:'usuario', action:'confirmado']
         }
@@ -47,15 +49,15 @@ class BootStrap {
 		adminUser.save(flush: true)
 		UsuarioRol.create adminUser, rolAdmin, true
 		
-		def simpleUser = new Usuario(	username: 'user',
-										email: 'leo6987@gmail.com',
-										enabled: true,
-										accountLocked: false,
-										accountExpired: false,
-										passwordExpired: false,
-										password: password)
-		simpleUser.save(flush: true)
-		UsuarioRol.create simpleUser, rolUsuario, true
+//		def simpleUser = new Usuario(	username: 'user',
+//										email: 'leo6987@gmail.com',
+//										enabled: true,
+//										accountLocked: false,
+//										accountExpired: false,
+//										passwordExpired: false,
+//										password: password)
+//		simpleUser.save(flush: true)
+//		UsuarioRol.create simpleUser, rolUsuario, true
 		
 		//Feriados nacionales
 		def feriado = new Feriado(dia:1,mes:1,nacional:true,descripcion:"Año nuevo")

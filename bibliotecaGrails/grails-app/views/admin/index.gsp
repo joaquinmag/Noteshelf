@@ -35,6 +35,10 @@
                 <ul>
                     <li class="controller"><g:link controller="feriado" action="index">Administrar feriados</g:link></li>
                 </ul>
+                <h2>Usuarios:</h2>
+                <ul>
+                    <li class="controller"><g:link controller="usuario" action="index">Administrar usuarios</g:link></li>
+                </ul>
             </div>
         </div>
     </body>

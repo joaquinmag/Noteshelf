@@ -21,14 +21,14 @@
         </div>
         <div class="buttons">
           <span class="button">
-            <input class="save" type="submit" value="Actualizar" onclick="this.value='Actualizando... Por favor espere...'; progress.style.display=''; this.disabled=true; this.form.submit();"/>
+            <input class="save" type="submit" id="botonExcel" value="Actualizar" onclick="this.value='Actualizando... Por favor espere...'; progress.style.display=''; this.disabled=true; document.getElementById('botonGDoc').disabled=true; this.form.submit();"/>
           </span>
         </div>
       </g:form>
       <g:form action="actualizarDesdeGDoc">
       	<div class="buttons">
           <span class="button">
-          	<input class="save" type="submit" value="Actualizar desde Google Doc" onclick="this.value='Actualizando... Por favor espere...'; progress.style.display=''; this.disabled=true; this.form.submit();"/>
+          	<input class="save" type="submit" id="botonGDoc" value="Actualizar desde Google Doc" onclick="this.value='Actualizando... Por favor espere...'; progress.style.display=''; document.getElementById('botonExcel').disabled=true; this.disabled=true; this.form.submit();"/>
           </span>
       	</div>
       </g:form>

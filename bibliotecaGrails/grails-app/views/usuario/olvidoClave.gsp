@@ -15,14 +15,14 @@
 					<table>
 						<tbody>
 							<tr class="prop">
-								<p>&iquest;Olvidaste tu clave?	Ingres&aacute; tu nombre de usuario para que te enviemos una nueva a tu email.</p>
+								<p>&iquest;Olvidaste tu clave?	Ingres&aacute; el e-mail con el que te registraste para que te enviemos una nueva.</p>
 							</tr>
 							<tr class="prop">
 								<td valign="top" class="name">
-									<label for='username'>Usuario: </label>
+									<label for='email'>E-mail: </label>
 								</td>
 								<td valign="top">
-									<input type='text' name='username' id='username' />
+									<input type='text' name='email' id='email' />
 								</td>
 							</tr>
 						</tbody>

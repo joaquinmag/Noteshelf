@@ -6,8 +6,9 @@ import biblioteca.usuario.Usuario
 
 class Prestamo {
 
+	static belongsTo = [usuario:Usuario]
+	
 	Material materialPrestado
-	Usuario usuario
 	Date dateCreated
 	Date devolucion
 	Date devolucionReal

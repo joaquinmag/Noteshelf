@@ -32,6 +32,7 @@ class Usuario {
 	
 	static mapping = {
 		password column: '`password`'
+		prestamos cascade:'all-delete-orphan'
 	}
 	
 	static hasMany = [prestamos:Prestamo, comentarios:Comentario, puntuaciones:Puntuacion]

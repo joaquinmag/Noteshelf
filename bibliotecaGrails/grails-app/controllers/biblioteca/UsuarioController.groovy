@@ -10,18 +10,18 @@ class UsuarioController {
   
 	def springSecurityService
 	def emailConfirmationService
-	def MailService
+	def mailService
 	
 	static scaffold = biblioteca.usuario.Usuario
 	
-	@Secured(['ROLE_USUARIO','ROLE_ADMIN'])
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def confirmado = {}
 	
 	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def reiniciarPassword = {
 		
-		if (params.username) {
-			Usuario usuario = Usuario.findByUsername(params.username)
+		if (params.email) {
+			Usuario usuario = Usuario.findByEmail(params.email)
 			if (usuario) {
 				def password =  RandomStringUtils.random(8, true, true)
 				usuario.password = springSecurityService.encodePassword(password)
@@ -39,12 +39,12 @@ class UsuarioController {
 				redirect(controller:"login", action:"auth")
 			}
 			else {
-				flash.message = "Usuario no encontrado. Ingres&aacute; tu usuario nuevamente."
+				flash.message = "No existe un usuario registrado con ese e-mail. Ingres&aacute; tu e-mail nuevamente."
 				redirect(controller:"usuario", action:"olvidoClave")
 			}
 		}
 		else {
-			flash.message = "Ingres&aacute; tu usuario para poder enviarte un nuevo password a tu email."
+			flash.message = "Ingres&aacute; tu direcci&oacute;n de e-mail para poder enviarte un nuevo password."
 			redirect(controller:"usuario", action:"olvidoClave")
 		}
 	}
@@ -177,6 +177,26 @@ class UsuarioController {
 		}
 	}
 	
-	@Secured([])
-	def delete = {}
+	@Secured(['ROLE_ADMIN','IS_AUTHENTICATED_FULLY'])
+	def delete = {
+		def usuarioInstance = Usuario.get(params.id)
+
+        if (usuarioInstance) {
+            try {
+				UsuarioRol.removeAll(usuarioInstance)
+				usuarioInstance.delete(flush: true)
+
+                flash.message = "Usuario eliminado correctamente."
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "Error al eliminar el usuario."
+                redirect(action: "show", id: params.id)
+            }
+        }
+        else {
+            flash.message = "No existe un usuario con ese id."
+            redirect(action: "list")
+        }
+	}
 }
