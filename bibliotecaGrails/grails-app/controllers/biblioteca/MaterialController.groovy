@@ -171,5 +171,4 @@ class MaterialController {
 	def index = {
 		redirect(action:'list')
 	}
-
 }

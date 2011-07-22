@@ -8,6 +8,7 @@ class Puntuacion {
     
 	//Para levantar las puntuaciones al buscar los materiales
 	static searchable = {
+		material reference: true
 		autor reference: true
 	}
 	

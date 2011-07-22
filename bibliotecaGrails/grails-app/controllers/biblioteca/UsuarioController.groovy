@@ -36,7 +36,7 @@ class UsuarioController {
 					}
 					flash.message = "El nuevo password fue enviado a tu email."
 				}
-				redirect(controller:"login", action:"auth")
+				redirect(controller:"login", action:"index")
 			}
 			else {
 				flash.message = "No existe un usuario registrado con ese e-mail. Ingres&aacute; tu e-mail nuevamente."

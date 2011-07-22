@@ -28,7 +28,7 @@ class Material {
 
 	public boolean fuePuntuadoPor(Usuario usuario){
 		if (this.puntuaciones?.size() > 0)
-			return this.puntuaciones*.autor.contains(usuario)
+			return this.puntuaciones*.autor*.id.contains(usuario.id)
 		else
 			return false
 	}

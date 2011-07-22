@@ -12,6 +12,8 @@ class BootStrap {
 
     def init = { servletContext ->
 		
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-3"))
+		
         emailConfirmationService.onConfirmation = { email, uid ->
             def usuario = Usuario.findAllByEmail(email)
             usuario.each {
