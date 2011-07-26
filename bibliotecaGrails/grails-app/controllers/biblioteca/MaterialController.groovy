@@ -156,6 +156,7 @@ class MaterialController {
 			puntaje.puntaje = Integer.parseInt(params.rating)
 
 			material.puntuar(puntaje)
+			material.reindex()
 		}
 
 		render(template: "/layouts/puntuacion", model: [material: material])

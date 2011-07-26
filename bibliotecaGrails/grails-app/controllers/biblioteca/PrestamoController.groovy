@@ -65,7 +65,7 @@ class PrestamoController {
 		def prestamo = Prestamo.get(params.id)
 		
 		if (prestamo.pendiente)
-			redirect (controller:"prestamo", action:"devolver", params:[id:prestamo.id,material:prestamo.materialPrestado,usuario:prestamo.usuario,devolucion:prestamo.devolucion])
+			render (view:"devolver", model: [prestamoInstance : prestamo])
 		else {
 			flash.message = "Este pr&eacute;stamo ya fue devuelto."
 			redirect (controller:"prestamo", action:"list")

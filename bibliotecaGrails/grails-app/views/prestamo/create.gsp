@@ -24,7 +24,7 @@
 	                  <label for="devolucion">Fecha de devoluci&oacute;n: </label>
 	                </td>
 	                <td>
-	                	<g:formatDate format="dd/MM/yyyy hh:mm:ss" date="${prestamoInstance.devolucion}" />
+	                	<g:formatDate format="dd/MM/yyyy HH:mm:ss" date="${prestamoInstance.devolucion}" />
 	                </td>
 	           	</tr> 
 	            <tr class="prop">

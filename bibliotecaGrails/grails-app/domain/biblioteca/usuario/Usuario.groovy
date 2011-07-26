@@ -28,7 +28,9 @@ class Usuario {
 		penalizacion display: false
 	}
 	//Para levantar el autor de los comentarios de cada material al buscar
-	static searchable = true
+	static searchable = {
+		puntuaciones reference: true
+	}
 	
 	static mapping = {
 		password column: '`password`'
